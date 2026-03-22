@@ -17,11 +17,10 @@ const App = () => {
   return (
     <div>
       <h2>give feedback</h2>
-      <button onClick={addGood}>good</button>
-      <button onClick={addNeutral}>neutral</button>
-      <button onClick={addBad}>bad</button>
+      <Button onClick={addGood} value="good"/>
+      <Button onClick={addNeutral} value="neutral"/>
+      <Button onClick={addBad} value="bad"/>
       <h2>Statistics</h2>
-      
       <Statistics 
       good={good}
       neutral={neutral}
@@ -38,17 +37,34 @@ const Statistics = (props) => {
   if (props.total !== 0) {
     return (
       <>
-      <p>good {props.good}</p>
-      <p>neutral {props.neutral}</p>
-      <p>bad {props.bad}</p>
-      <p>All {props.total}</p>
-      <p>average {props.average}</p>
-      <p>positive {props.positiveFeedback}%</p>
+        <table>
+          <tbody>
+            <StatisticLine text="good" value={props.good}/>
+            <StatisticLine text="neutral" value={props.neutral}/>
+            <StatisticLine text="bad" value={props.bad}/>
+            <StatisticLine text="total" value={props.total}/>
+            <StatisticLine text="average" value={props.average.toFixed(1)}/>
+            <StatisticLine text="positive" value={props.positiveFeedback.toFixed(1)}/>
+          </tbody>
+        </table>
       </>
     )
   } else {
     return <p>No feedback given</p>
   }
+}
+
+const StatisticLine = (props) => {
+  return (
+   <tr>
+    <td>{props.text}</td>
+    <td>{props.text == "positive" ? props.value + " %" : props.value}</td>
+   </tr> 
+  )
+}
+
+const Button = (props) => {
+  return <button onClick={props.onClick}>{props.value}</button>;
 }
 
 export default App;
