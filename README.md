@@ -1,6 +1,7 @@
 # Repository of Exercises entries for https://fullstackopen.com/
 
 Finished Exercises: 
+## Part 1 Introducation to React | Exercises (Course Information, Unicafe, Anecdotes)
 ```
 1.1: Course Information, Step 1
 1.2: Course Information, Step 2
@@ -14,3 +15,4 @@ Finished Exercises:
 1.11*: unicafe step 6
 1.12*: anecdotes step 1
 1.13*: anecdotes step 2
+1.14*: anecdotes step 3
