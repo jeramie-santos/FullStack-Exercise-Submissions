@@ -13,11 +13,45 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
+  const votes = Array(anecdotes.length).fill(0);
+
+  const [copy, setCopy] = useState([...votes]);
+
   const [selected, setSelected] = useState(0);
+  
+  const changeAnecdote = () => {
+    const randomNumber = Math.floor(Math.random() * anecdotes.length);
+    setSelected(randomNumber);
+  }
+
+  const voteAnecdote = () => {
+    const updatedVote = copy[selected] + 1;
+    setCopy(prev => 
+      prev.map((num, index) => {
+        return index == selected ? updatedVote : num;
+      })
+    );
+    
+  }
 
   return (
+    
     <div>
-      {anecdotes[selected]}
+      <h2>Anecdote of the day</h2>
+      <p>{anecdotes[selected]}</p>
+      <p>has {copy[selected]} vote</p>
+      <button onClick={voteAnecdote}>vote</button>
+      <button onClick={changeAnecdote}>next anecdote</button>
+      <h2>Anecdote with most votes</h2>
+      {
+        Math.max(...copy) != 0 ? 
+        <div>
+          <p>{anecdotes[copy.indexOf(Math.max(...copy))]}</p>
+          <p>has {Math.max(...copy)} {Math.max(...copy) == 1 ? "vote" : "votes"}</p>
+        </div> 
+        : 
+        <p>No votes yet.</p>
+      }
     </div>
   )
 
