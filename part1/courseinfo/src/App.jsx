@@ -1,62 +1,56 @@
-const Header = (propsHeader) => {
-  return (
-    <>
-      <h1>{propsHeader.course.name}</h1>
-    </>
-  ) 
-}
-
-const Part = (propsPart) => {  
-  return (
-    <p>
-        {propsPart.part} {propsPart.exercises}
-    </p>
-  )
-}
-
-const Content = (propsContent) => {  
-  return (
-    <>
-      <Part part={propsContent.course.parts[0].name} exercises={propsContent.course.parts[0].exercises}/>
-      <Part part={propsContent.course.parts[1].name} exercises={propsContent.course.parts[1].exercises}/>
-      <Part part={propsContent.course.parts[2].name} exercises={propsContent.course.parts[2].exercises}/>
-    </>
-  )
-}
-
-const Total = (propsTotal) => {
-  return (
-    <>
-      <p>Number of exercises {propsTotal.course.parts[0].exercises + propsTotal.course.parts[1].exercises + propsTotal.course.parts[2].exercises}</p>
-    </>
-  )
-}
-
-
+import Course from "./components/Course"
 
 const App = () => { 
-  const course = {
-    name: 'Half Stack aplication development',
-    parts: [{
-      name: 'Fundamentals of React',
-      exercises: 10
+  
+  const courses = [
+    {
+    id: 1,
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10,
+        id: 1
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7,
+        id: 2
+      },
+      {
+        name: 'State of a component',
+        exercises: 14,
+        id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
+      }
+    ]
     },
     {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
     }
   ]
-}
 
   return (
-    <div>
-      <Header course={course}/>
-      <Content course={course}/>
-      <Total course={course} />
+    <div className="main-container">
+      <h1>Web Developement curriculum</h1>
+      <Course courses={courses} />
     </div>
   )
 }
