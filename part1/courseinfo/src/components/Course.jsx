@@ -3,8 +3,6 @@ import Part from "./Part";
 import Total from "./Total";
 
 const Course = ({courses}) => { 
-  console.log(courses);
-   
   return (
       <>
         {courses.map(course => {
