@@ -24,3 +24,6 @@ Finished Exercises:
 2.3*: Course information step 8
 2.4: Course information step 9
 2.5: Separate module step 10
+2.6: The Phonebook Step 1
+2.7: The Phonebook Step 2
+
