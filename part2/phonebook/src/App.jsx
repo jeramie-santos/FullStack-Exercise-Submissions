@@ -10,8 +10,6 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [search, setSearch] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchResult, setSearchResult] = useState([]);
 
   useEffect(() => {
     personService
@@ -24,26 +22,42 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault();
     const newObj = {name: newName, number: newNumber, id: persons.length + 1};
-
     const exists = persons.find(person => person.name === newName);
-    const updatedPerson = {...exists, number: newNumber}
-
-    if (exists) 
-    {
-      if (window.confirm(`${newName} is already added to phonebook, replace the old number with ${newNumber}?`)) {
-        personService
-          .update(exists.id, updatedPerson)
-          .then(returnUpdated => {
-          setPersons(persons.map(person => person.id === returnUpdated.id ? returnUpdated : person))
-        })
-      } 
-    } else {
+    
+    if (!exists) {
       personService
         .create(newObj)
         .then (returnedPerson => {
-          setPersons(persons.concat(returnedPerson));
+          setPersons(prev => prev.concat(returnedPerson));
           setNewName(''); 
           setNewNumber('') 
+        })
+    } else {
+        updatePerson(exists)
+    }
+  }
+
+  const updatePerson = (exists) => {
+    const updatedPerson = {...exists, number: newNumber}
+    if (window.confirm(`${newName} is already added to phonebook, replace the old number with ${newNumber}?`)) {
+        personService
+          .update(exists.id, updatedPerson)
+          .then(returnUpdated => {
+          setPersons(prev => prev.map(person => person.id === returnUpdated.id ? returnUpdated : person))
+          setNewName(''); 
+          setNewNumber('') 
+        })
+      } 
+  }
+
+  const handleDelete = (id) => {
+    const matchedPerson = persons.find(person => person.id === id)
+    const confirm = window.confirm(`Delete ${matchedPerson.name} ?`)
+    if (confirm) {
+      personService
+        .deletePerson(id)
+        .then(returnDeleted => {
+          setPersons(prev => prev.filter(person => person.id !== returnDeleted))
         })
     }
   }
@@ -56,29 +70,11 @@ const App = () => {
     setNewNumber(e.target.value)
   }
 
+  const filteredPerson = search === '' ? persons : persons.filter(person => person.name.toLowerCase().includes((search).toLowerCase()));
+
   const handleSearch = (e) => {
-    if (e.target.value != '') {
-      setIsSearching(true)
-      const result = persons.filter(perons => perons.name.toLowerCase().includes((e.target.value).toLowerCase()))
-      setSearchResult(result);
-    } else {
-      setIsSearching(false);
-    }
     setSearch(e.target.value)
   }
-
-  const handleDelete = (id) => {
-    const name = persons.find(person => person.id == id)
-    const confirm = window.confirm(`Delete ${name.name} ?`)
-    if (confirm) {
-      personService
-        .deletePerson(id)
-        .then(returnDeleted => {
-          setPersons(persons.filter(person => person.id !== returnDeleted))
-        })
-    }
-  }
-  
 
   return (
     <div>
@@ -97,8 +93,7 @@ const App = () => {
       />
       <h3>Numbers</h3>
       <Persons 
-        isSearching={isSearching}
-        searchResult={searchResult}
+        filteredPerson={filteredPerson}
         persons={persons}
         handleDelete={handleDelete}/>
     </div>

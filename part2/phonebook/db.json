@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "Max Santos",
-      "number": "063-123456",
+      "number": "321321321",
       "id": "1"
     },
     {
@@ -24,6 +24,11 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": "5"
+    },
+    {
+      "name": "ok",
+      "number": "123123",
+      "id": "Z-iVo1zg9Mc"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

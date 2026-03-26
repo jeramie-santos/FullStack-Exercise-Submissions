@@ -1,8 +1,8 @@
 import PersonList from './PersonList';
 
-const Persons = ({isSearching, searchResult, persons, handleDelete}) => {
+const Persons = ({filteredPerson, persons, handleDelete}) => {
     return (
-      (isSearching ? searchResult : persons).map((person) => {
+      (filteredPerson ? filteredPerson : persons).map((person) => {
         return <PersonList key={person.id} person={person} handleDelete={() => handleDelete(person.id)}/>
       })
     )
