@@ -31,7 +31,6 @@ const App = () => {
     ? 
       alert(`${newName} is already added to phonebook`)  
     :
-
     personService
       .create(newObj)
       .then (returnedPerson => {
@@ -60,6 +59,19 @@ const App = () => {
     setSearch(e.target.value)
   }
 
+  const handleDelete = (id) => {
+    const name = persons.find(person => person.id == id)
+    const confirm = window.confirm(`Delete ${name.name} ?`)
+    if (confirm) {
+      personService
+        .deletePerson(id)
+        .then(returnDeleted => {
+          setPersons(persons.filter(person => person.id !== returnDeleted))
+        })
+    }
+  }
+  
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -79,7 +91,8 @@ const App = () => {
       <Persons 
         isSearching={isSearching}
         searchResult={searchResult}
-        persons={persons}/>
+        persons={persons}
+        handleDelete={handleDelete}/>
     </div>
   )
 }
