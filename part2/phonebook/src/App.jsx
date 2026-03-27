@@ -3,6 +3,7 @@ import personService from './services/persons'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import Notification from "./components/Notification"
 
 const App = () => {
 
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [search, setSearch] = useState('');
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     personService
@@ -30,7 +32,9 @@ const App = () => {
         .then (returnedPerson => {
           setPersons(prev => prev.concat(returnedPerson));
           setNewName(''); 
-          setNewNumber('') 
+          setNewNumber('')
+          setNotification({message: `Added ${newName}`, style: "good"})
+          setTimeout(() => setNotification(null), 5000)
         })
     } else {
         updatePerson(exists)
@@ -45,8 +49,15 @@ const App = () => {
           .then(returnUpdated => {
           setPersons(prev => prev.map(person => person.id === returnUpdated.id ? returnUpdated : person))
           setNewName(''); 
-          setNewNumber('') 
+          setNewNumber('')
+          setNotification({message: `${newName}'s number changed to ${newNumber}`, style: "good"})
+          setTimeout(() => setNotification(null), 5000) 
         })
+        .catch(error => {
+          setNotification({message: `Information of ${updatedPerson.name} has already been deleted`, style: "error"})
+          setTimeout(() => setNotification(null), 5000)
+        }
+      )
       } 
   }
 
@@ -79,6 +90,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification}/>
       <Filter 
         search={search}
         handleSearch={handleSearch}

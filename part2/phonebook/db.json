@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "Max Santos",
-      "number": "321321321",
+      "number": "123123",
       "id": "1"
     },
     {
@@ -26,9 +26,14 @@
       "id": "5"
     },
     {
-      "name": "ok",
+      "name": "test",
+      "number": "sheesh",
+      "id": "3X234r1H1p4"
+    },
+    {
+      "name": "qweqwe",
       "number": "123123",
-      "id": "Z-iVo1zg9Mc"
+      "id": "Hk2DObNh1KU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
