@@ -3,11 +3,19 @@ import { useEffect, useState } from 'react';
 
 const App = () => {
 
+  const API_KEY = import.meta.env.VITE_API_KEY;
+
   const [search, setSearch] = useState('');
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [weather, setWeather] = useState(null);
 
   const results =  countries.filter(country => country.name.common.toLowerCase().includes((search).toLowerCase()))
+
+  const currentCountry =
+  selectedCountry ? selectedCountry :
+  results.length === 1 ? results[0] :
+  null;
 
   const handleChange = (e) => {
    setSelectedCountry(null);
@@ -25,19 +33,26 @@ const App = () => {
       })
   }, [])
 
+  useEffect(() => {
+    if (!currentCountry) return; 
+
+    axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${currentCountry.capital}&APPID=${API_KEY}`)
+    .then(response => setWeather(response.data))
+  }, [currentCountry])
+
   const countryList = (data) => {
     return (
-            <div key={data.cca2}>
-              <p>
-                {data.name.common}
-                <button onClick={() => handleClick(data)}>Show</button>
-              </p>
-            </div>
-           )
+      <div key={data.cca2}>
+        <p>
+          {data.name.common}
+          <button onClick={() => handleClick(data)}>Show</button>
+        </p>
+      </div>
+    )
   }
 
   const handleClick = (data) => {
-    setSelectedCountry(data);
+    setSelectedCountry(data)
   }
   
   const displayCountry = (data) => {  
@@ -53,10 +68,26 @@ const App = () => {
           })}
         </ul>
         <img src={data.flags.png} alt={data.capital} />
+        <h2>Weather in {data.capital}</h2>
+        {weather ? <Weather data={weather}/> : null}
       </div>
     )
   }
 
+  const Weather = ({data}) => {
+
+    const temperature = data.main.temp - 273.15
+    const wind = data.wind.speed;
+    
+    return (
+      <>
+        <p>Temperature: {temperature.toFixed(2)}</p>
+        <img src={`https://openweathermap.org/payload/api/media/file/${data.weather[0].icon}.png`} alt={data.weather[0].main}/>
+        <p>Wind: {wind}m/s</p>
+      </>
+    )
+  } 
+  
 
   return (
     <div className="main-container">
