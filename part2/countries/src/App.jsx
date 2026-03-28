@@ -37,11 +37,7 @@ const App = () => {
   }
 
   const handleClick = (data) => {
-    if (selectedCountry != null){
-      setSelectedCountry(null)
-    } else {
-      setSelectedCountry(data);
-    }
+    setSelectedCountry(data);
   }
   
   const displayCountry = (data) => {  
