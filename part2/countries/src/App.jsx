@@ -54,11 +54,11 @@ const App = () => {
   return (
     <div className="main-container">
       <SearchCountry search={search} handleChange={handleChange} />
-      {results.length > 1 && results.length < 9 ? results.map(result => <CountryList key={result.capital} data={result} handleClick={handleClick}/>) : ""}
-      <div>
-        {selectedCountry ? <Country data={selectedCountry} weather={weather}/> : null}
+      <div className="list-details">
+        {results.length > 1 && results.length < 9 ? results.map(result => <CountryList key={result.capital} data={result} handleClick={handleClick}/>) : ""}
       </div>
       <div>
+        {selectedCountry ? <Country data={selectedCountry} weather={weather}/> : null}
         {
           results.length === 250 ? <p>Search a country</p> : 
           results.length === 1 ? results.map(result => <Country key={result.capital} data={result} weather={weather}/>) : 

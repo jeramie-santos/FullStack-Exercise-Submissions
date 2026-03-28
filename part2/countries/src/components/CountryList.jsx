@@ -1,6 +1,4 @@
- const CountryList = ({data, handleClick}) => {
-    console.log(data);
-    
+ const CountryList = ({data, handleClick}) => {    
     return (
       <div>
         <p>
