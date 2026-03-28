@@ -22,7 +22,6 @@ const App = () => {
   null;
 
   const handleChange = (e) => {
-   setWeather(null);
    setSelectedCountry(null);
    setSearch(e.target.value)
   } 
@@ -48,7 +47,6 @@ const App = () => {
  
 
   const handleClick = (data) => {
-    console.log(data);
     setSelectedCountry(data)
   }
   
@@ -58,16 +56,15 @@ const App = () => {
       <SearchCountry search={search} handleChange={handleChange} />
       {results.length > 1 && results.length < 9 ? results.map(result => <CountryList key={result.capital} data={result} handleClick={handleClick}/>) : ""}
       <div>
-        {selectedCountry ? <Country data={selectedCountry} /> : null}
+        {selectedCountry ? <Country data={selectedCountry} weather={weather}/> : null}
       </div>
       <div>
         {
           results.length === 250 ? <p>Search a country</p> : 
-          results.length === 1 ? results.map(result => <Country key={result.capital} data={result} />) : 
+          results.length === 1 ? results.map(result => <Country key={result.capital} data={result} weather={weather}/>) : 
           results.length > 10 ?  <p>Too many matches, specify another filter</p> : ""
         }
       </div>
-      {weather ? <Weather data={weather}/> : null}
     </div>
   )
 }

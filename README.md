@@ -37,3 +37,4 @@ Finished Exercises:
 2.16: Phonebook step 11
 2.18* Data for countries, step 1
 2.19*: Data for countries, step 2
+2.20*: Data for countries, step 3

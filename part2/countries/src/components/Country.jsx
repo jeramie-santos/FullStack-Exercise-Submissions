@@ -1,6 +1,7 @@
 import Weather from "./Weather";
 
-const Country = ({data}) => {   
+const Country = ({data, weather}) => {   
+    console.log(weather);
     
     return (
       <div>
@@ -15,6 +16,7 @@ const Country = ({data}) => {
         </ul>
         <img src={data.flags.png} alt={data.capital} />
         <h2>Weather in {data.capital}</h2>
+        {weather ? <Weather data={weather}/> : null}
       </div>
     )
 }
