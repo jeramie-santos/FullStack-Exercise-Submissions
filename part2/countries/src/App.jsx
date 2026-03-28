@@ -1,4 +1,8 @@
 import axios from 'axios'
+import Country from './components/Country';
+import CountryList from './components/CountryList';
+import Weather from './components/Weather';
+import SearchCountry from './components/SearchCountry';
 import { useEffect, useState } from 'react';
 
 const App = () => {
@@ -18,6 +22,7 @@ const App = () => {
   null;
 
   const handleChange = (e) => {
+   setWeather(null);
    setSelectedCountry(null);
    setSearch(e.target.value)
   } 
@@ -40,72 +45,29 @@ const App = () => {
     .then(response => setWeather(response.data))
   }, [currentCountry])
 
-  const countryList = (data) => {
-    return (
-      <div key={data.cca2}>
-        <p>
-          {data.name.common}
-          <button onClick={() => handleClick(data)}>Show</button>
-        </p>
-      </div>
-    )
-  }
+ 
 
   const handleClick = (data) => {
+    console.log(data);
     setSelectedCountry(data)
   }
-  
-  const displayCountry = (data) => {  
-    return (
-      <div key={data.cca2}>
-        <h1>{data.name.common}</h1>
-        <p>Capital: {data.capital}</p>
-        <p>Area: {data.area}</p>
-        <h2>Languages</h2>
-        <ul>
-          {Object.values(data.languages).map(lang => { 
-            return <li key={lang}>{lang}</li>
-          })}
-        </ul>
-        <img src={data.flags.png} alt={data.capital} />
-        <h2>Weather in {data.capital}</h2>
-        {weather ? <Weather data={weather}/> : null}
-      </div>
-    )
-  }
-
-  const Weather = ({data}) => {
-
-    const temperature = data.main.temp - 273.15
-    const wind = data.wind.speed;
-    
-    return (
-      <>
-        <p>Temperature: {temperature.toFixed(2)}</p>
-        <img src={`https://openweathermap.org/payload/api/media/file/${data.weather[0].icon}.png`} alt={data.weather[0].main}/>
-        <p>Wind: {wind}m/s</p>
-      </>
-    )
-  } 
   
 
   return (
     <div className="main-container">
+      <SearchCountry search={search} handleChange={handleChange} />
+      {results.length > 1 && results.length < 9 ? results.map(result => <CountryList key={result.capital} data={result} handleClick={handleClick}/>) : ""}
       <div>
-        find countries  
-        <input value={search} onChange={handleChange}/>
-      </div>
-      <div>
-        {selectedCountry ? displayCountry(selectedCountry) : null}
+        {selectedCountry ? <Country data={selectedCountry} /> : null}
       </div>
       <div>
         {
           results.length === 250 ? <p>Search a country</p> : 
-          results.length === 1 ? results.map(result => displayCountry(result)) : 
-          results.length > 10 ?  <p>Too many matches, specify another filter</p> : 
-          results.map(result => countryList(result))
+          results.length === 1 ? results.map(result => <Country key={result.capital} data={result} />) : 
+          results.length > 10 ?  <p>Too many matches, specify another filter</p> : ""
         }
       </div>
+      {weather ? <Weather data={weather}/> : null}
     </div>
   )
 }
