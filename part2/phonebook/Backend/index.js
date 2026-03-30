@@ -26,6 +26,11 @@ let persons = [
     }
 ]
 
+const randomId = () => {
+    const id = Math.floor(Math.random() * 1000) + 1;
+    return String(id)
+}
+
 app.get('/api/persons', (request, response) => {
     response.json(persons);
 })
@@ -50,9 +55,27 @@ app.get('/api/persons/:id', (request, response) => {
     } else {
         response.status(404).end()
     }
+}) 
+
+app.post('/api/persons', (request, response) => {
+    const body = request.body;
+
+    if (!body.name) {
+        return response.status(400).json({
+            error: 'name missing'
+        })
+    }
+
+    const person = {
+        id: randomId(),
+        name: body.name,
+        number: body.number
+    }
+
+    persons = persons.concat(person)
 
     response.json(person)
-}) 
+})
 
 app.delete('/api/persons/:id', (request, response) => {
     const id = request.params.id;
