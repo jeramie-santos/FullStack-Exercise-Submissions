@@ -60,12 +60,21 @@ app.get('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const body = request.body;
 
-    if (!body.name) {
-        return response.status(400).json({
-            error: 'name missing'
-        })
-    }
+    const exists = persons.some(person => person.name.toLowerCase() === body.name.toLowerCase())
 
+    if (!body.name || !body.number) {
+        return response.status(400).json({
+            error: `${!body.name ? "name" : "number"} is missing`
+        })
+
+    }
+    
+    if (exists) {
+        return response.status(400).json({
+            error: `name must be unique`
+        })
+    }  
+    
     const person = {
         id: randomId(),
         name: body.name,
@@ -75,6 +84,7 @@ app.post('/api/persons', (request, response) => {
     persons = persons.concat(person)
 
     response.json(person)
+     
 })
 
 app.delete('/api/persons/:id', (request, response) => {
