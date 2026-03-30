@@ -39,6 +39,8 @@ Finished Exercises:
 2.19*: Data for countries, step 2
 2.20*: Data for countries, step 3
 ```
-## Part 3
+## Part 3 (Node and Express)
 ```
 3.1: Phonebook backend step 1
+3.2: Phonebook backend step 2
+3.3: Phonebook backend step 3

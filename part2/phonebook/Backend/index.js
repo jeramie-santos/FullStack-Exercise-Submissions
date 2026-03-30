@@ -1,7 +1,7 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
 const persons = [
     { 
@@ -26,13 +26,26 @@ const persons = [
     }
 ]
 
-app.get(`/`, (request, response) => {
-    response.send(`<h1>Hello World ok</h1>`)
+app.get('/api/persons', (request, response) => {
+    response.json(persons);
 })
 
-app.get('/api/persons', (request, response) => {
-    response.send(persons);
+app.get('/info', (request, response) => {
+    const now = new Date();
+    const total = persons.length;
+
+    const info = `
+    <p>Phonebook has info for ${total} people</p>
+    <p>${now}</p>
+    `
+    response.send(info);
 })
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = request.params.id;
+    const person = persons.find(person => person.id === id)
+    response.json(person)
+}) 
 
 
 
