@@ -44,3 +44,4 @@ Finished Exercises:
 3.1: Phonebook backend step 1
 3.2: Phonebook backend step 2
 3.3: Phonebook backend step 3
+3.4: Phonebook backend step 4
