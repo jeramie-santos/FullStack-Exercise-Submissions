@@ -105,6 +105,23 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end();
 })
 
+app.put('/api/persons/:id', (request, response) => {
+    const id = request.params.id;
+    const body = request.body;
+    
+    const person = persons.find(person => person.id === id);
+
+    if (!person) {
+        return response.status(404).end();
+    }
+
+    const updatePerson = {...person, number: body.number};
+
+    persons = persons.map(person => person.id === id ? updatePerson : person);
+
+    response.json(updatePerson)
+})
+
 
 
 const PORT = process.env.PORT || 3001;
