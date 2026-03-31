@@ -67,8 +67,8 @@ const App = () => {
     if (confirm) {
       personService
         .deletePerson(id)
-        .then(returnDeleted => {
-          setPersons(prev => prev.filter(person => person.id !== returnDeleted))
+        .then(() => {
+          setPersons(prev => prev.filter(person => person.id !== id))
         })
     }
   }
